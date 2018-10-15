@@ -1,7 +1,7 @@
 # Datetimepicker for Bootstrap 4
 [![Build Status](https://travis-ci.org/pingcheng/bootstrap4-datetimepicker.svg?branch=master)](https://travis-ci.org/pingcheng/bootstrap4-datetimepicker)
 
-Forked from pingcheng
+Forked from [pingcheng](https://github.com/pingcheng/bootstrap4-datetimepicker)
 
 Use fromUTC parameter to initialize from an moment UTC format
 ```js
