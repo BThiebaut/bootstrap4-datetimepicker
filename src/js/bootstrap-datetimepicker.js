@@ -127,7 +127,6 @@
                 46: 'delete'
             },
             keyState = {},
-            target   = element,
 
             /********************************************************************************
              *
@@ -852,14 +851,15 @@
                 fillTime();
             },
 
-            setValue = function (targetMoment) {
-                var oldDate = unset ? null : date;
+            setValue = function (targetMoment, propagateBinding) {
+                var oldDate          = unset ? null : date;
+                    propagateBinding = propagateBinding !== false;
 
                 // Alk : simulate binding if context given
-                if (options.bindingContext && options.bindingProperty !== null){
+                if (propagateBinding && options.bindingContext && options.bindingProperty !== null){
                     setBindingValue(targetMoment ? targetMoment.toDate() : null);
                 }
-
+                
                 // case of calling setValue(null or false)
                 if (!targetMoment) {
                     unset = true;
@@ -1440,6 +1440,16 @@
                 }
             },
             /* Alk */
+            addBindingWatcher = function(){
+                if (typeof options.bindingContext.$watch !== typeof void(0) ){
+                    options.bindingContext.$watch(options.bindingProperty, function(newValue , oldValue){
+                        if (newValue !== oldValue){
+                            setValue(parseInputDate(newValue), false);
+                            update();
+                        }
+                    });
+                }
+            },
             setBindingValue = function(value){
                 if (options.bindingProperty.indexOf('.') > -1){
                     var parts = options.bindingProperty.split( "." ),
@@ -1606,6 +1616,7 @@
             }
 
             picker.bindingProperty = property;
+            addBindingWatcher();
             return picker;
         };
 
