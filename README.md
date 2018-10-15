@@ -1,26 +1,25 @@
 # Datetimepicker for Bootstrap 4
 [![Build Status](https://travis-ci.org/pingcheng/bootstrap4-datetimepicker.svg?branch=master)](https://travis-ci.org/pingcheng/bootstrap4-datetimepicker)
 
-The js and css files had been changed to the suit Bootstrap v4.
+Forked from pingcheng
 
-Since Bootstrap 4 removed the glyphicon, I replaced all icons with font-awesome v4, please includes the font-awesome css as well.
-
-You can override font icon class like this -
+Use fromUTC parameter to initialize from an moment UTC format
 ```js
-// Using font-awesome 5 icons
-  $.extend(true, $.fn.datetimepicker.defaults, {
-    icons: {
-      time: 'far fa-clock',
-      date: 'far fa-calendar',
-      up: 'fas fa-arrow-up',
-      down: 'fas fa-arrow-down',
-      previous: 'fas fa-chevron-left',
-      next: 'fas fa-chevron-right',
-      today: 'fas fa-calendar-check',
-      clear: 'far fa-trash-alt',
-      close: 'far fa-times-circle'
-    }
-  });
+  $(item).datetimepicker({
+     locale: '{{ app.request.locale }}',
+     sideBySide: true,
+     icons: {
+          time: 'mdi mdi-progress-clock',
+          date: 'fa fa-calendar',
+          up: 'fa fa-arrow-up',
+          down: 'fa fa-arrow-down',
+          previous: 'fa fa-chevron-left',
+          next: 'fa fa-chevron-right',
+          today: 'fa fa-calendar-check',
+          clear: 'fa fa-trash-alt',
+          close: 'fa fa-times-circle'
+    },
+   fromUTC: true
 ```
 Click [here](http://eonasdan.github.io/bootstrap-datetimepicker/) for the official usage documentation.
 
