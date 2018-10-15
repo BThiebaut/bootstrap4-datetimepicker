@@ -5,7 +5,7 @@ Forked from [pingcheng](https://github.com/pingcheng/bootstrap4-datetimepicker)
 
 Use fromUTC parameter to initialize from an moment UTC format
 ```js
-  $(item).datetimepicker({
+  $('.datepicker').datetimepicker({
      locale: '{{ app.request.locale }}',
      sideBySide: true,
      icons: {
