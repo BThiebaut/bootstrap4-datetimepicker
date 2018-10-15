@@ -128,6 +128,7 @@
             },
             keyState = {},
             target   = element,
+            vueElement = null,
 
             /********************************************************************************
              *
@@ -855,6 +856,11 @@
             setValue = function (targetMoment) {
                 var oldDate = unset ? null : date;
 
+                // Alk : simulate vue binding if context given
+                if (options.vueContext && options.vueProperty !== null){
+                    setVueValue(targetMoment ? targetMoment.toDate() : null);
+                }
+
                 // case of calling setValue(null or false)
                 if (!targetMoment) {
                     unset = true;
@@ -1433,6 +1439,25 @@
                 if (!unset) {
                     setValue(date);
                 }
+            },
+            /* Alk */
+            setVueValue = function(value){
+                if (options.vueProperty.indexOf('.') > -1){
+                    var parts = options.vueProperty.split( "." ),
+                        length = parts.length,
+                        i,
+                        property = options.vueContext;
+        
+                    for ( i = 0; i < length; i++ ) {
+                        if (i < length - 1){
+                            property = property[parts[i]];
+                        }else {
+                            property[parts[i]] = value;
+                        }
+                    }
+                }else {
+                    options.vueContext[options.vueProperty] = value;
+                }
             };
 
         /********************************************************************************
@@ -1552,7 +1577,8 @@
             return picker;
         };
 
-        // Alk Custom
+        /* AlkCustom  */
+
         picker.fromUTC = function(bEnabled){
             if (arguments.length === 0) {
                 return options.fromUTC;
@@ -1560,6 +1586,31 @@
             options.fromUTC = bEnabled;
             return picker;
         };
+
+        picker.vueContext = function(context){
+            if (arguments.length === 0) {
+                return options.vueContext;
+            }
+            options.vueContext = context;
+            return picker;
+        };
+
+        picker.vueProperty = function(property){
+            if (arguments.length === 0 || property instanceof Date) {
+                return options.vueProperty;
+            }
+            if (picker.vueContext === null){
+                throw "vueProperty() : vueContext have to be attached first";
+            }
+            if (typeof property !== 'string'){
+                throw new TypeError('vueProperty() expects a string parameter. Use dotted string to pass deep property. E.g : floor.property');
+            }
+
+            picker.vueProperty = property;
+            return picker;
+        };
+
+        /* End AlkCustom  */
 
         picker.timeZone = function (newZone) {
             if (arguments.length === 0) {
