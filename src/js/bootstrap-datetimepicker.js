@@ -57,6 +57,7 @@
     }
 
     var dateTimePicker = function (element, options) {
+        var self = this;
         var picker = {},
             date,
             viewDate,
@@ -126,6 +127,7 @@
                 46: 'delete'
             },
             keyState = {},
+            target   = element,
 
             /********************************************************************************
              *
@@ -139,7 +141,7 @@
 
             getMoment = function (d) {
                 var returnMoment;
-
+                
                 if (d === undefined || d === null) {
                     returnMoment = moment(); //TODO should this use format? and locale?
                 } else if (moment.isDate(d) || moment.isMoment(d)) {
@@ -149,6 +151,9 @@
                 } else if (hasTimeZone()) { // There is a string to parse and a default time zone
                     // parse with the tz function which takes a default time zone if it is not in the format string
                     returnMoment = moment.tz(d, parseFormats, options.useStrict, options.timeZone);
+                }  else if (options.fromUTC){
+                    // Create moment from UTC format
+                    returnMoment = moment.utc(d, parseFormats, options.useStrict);        
                 } else {
                     returnMoment = moment(d, parseFormats, options.useStrict);
                 }
@@ -156,7 +161,7 @@
                 if (hasTimeZone()) {
                     returnMoment.tz(options.timeZone);
                 }
-
+                
                 return returnMoment;
             },
 
@@ -962,7 +967,7 @@
                         inputDate = getMoment(inputDate);
                     }
                 } else {
-                    inputDate = options.parseInputDate(inputDate);
+                    inputDate = options.parseInputDate(inputDate, self);
                 }
                 //inputDate.locale(options.locale);
                 return inputDate;
@@ -1544,6 +1549,15 @@
             if (actualFormat) {
                 initFormatting(); // reinit formatting
             }
+            return picker;
+        };
+
+        // Alk Custom
+        picker.fromUTC = function(bEnabled){
+            if (arguments.length === 0) {
+                return options.fromUTC;
+            }
+            options.fromUTC = bEnabled;
             return picker;
         };
 
@@ -2342,7 +2356,7 @@
         if (element.hasClass('input-group')) {
             // in case there is more then one 'input-group-addon' Issue #48
             if (element.find('.datepickerbutton').length === 0) {
-                component = element.find('.input-group-append');
+                component = element.find('.input-group-addon');
             } else {
                 component = element.find('.datepickerbutton');
             }
@@ -2368,7 +2382,10 @@
             picker.disable();
         }
         if (input.is('input') && input.val().trim().length !== 0) {
-            setValue(parseInputDate(input.val().trim()));
+            var realValue = input.attr('value');
+            if (typeof realValue !== typeof void(0)){
+                setValue(parseInputDate(realValue.trim()));
+            }
         }
         else if (options.defaultDate && input.attr('placeholder') === undefined) {
             setValue(options.defaultDate);
