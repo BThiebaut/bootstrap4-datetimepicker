@@ -24,13 +24,6 @@ You can override font icon class like this -
 ```
 Click [here](http://eonasdan.github.io/bootstrap-datetimepicker/) for the official usage documentation.
 
-## Install
-```
-npm install pc-bootstrap4-datetimepicker
-```
-
 ## Changes
 
-* JS DOM class name control
-* CSS stylesheet
-* Replaced glyphicon with font-awesome icons
+* Add UTC date format support
