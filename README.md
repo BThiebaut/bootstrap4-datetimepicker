@@ -1,4 +1,4 @@
-# Datetimepicker for Bootstrap 4 - One-way binding support
+# Datetimepicker for Bootstrap 4 - Binding support
 
 Forked from [pingcheng](https://github.com/pingcheng/bootstrap4-datetimepicker)
 
@@ -14,6 +14,9 @@ Note : Use dotted string like 'prop1.prop2' to use deep properties.
    bindingProperty : 'floor.property'
   });
 ```
+
+Binding note : $watch attached to the context needed for two way binding. If not, it will be a one-way only.
+
 Click [here](http://eonasdan.github.io/bootstrap-datetimepicker/) for the official usage documentation.
 
 ## Changes
