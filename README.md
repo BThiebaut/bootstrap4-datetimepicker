@@ -1,4 +1,4 @@
-# Datetimepicker for Bootstrap 4 - VueJS
+# Datetimepicker for Bootstrap 4 - Binding support
 
 Forked from [pingcheng](https://github.com/pingcheng/bootstrap4-datetimepicker)
 
