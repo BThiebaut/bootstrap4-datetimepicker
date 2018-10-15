@@ -57,8 +57,8 @@
     }
 
     var dateTimePicker = function (element, options) {
-        var self = this;
-        var picker = {},
+        var self = this,
+            picker = {},
             date,
             viewDate,
             unset = true,
@@ -140,7 +140,7 @@
 
             getMoment = function (d) {
                 var returnMoment;
-                
+
                 if (d === undefined || d === null) {
                     returnMoment = moment(); //TODO should this use format? and locale?
                 } else if (moment.isDate(d) || moment.isMoment(d)) {
@@ -150,9 +150,9 @@
                 } else if (hasTimeZone()) { // There is a string to parse and a default time zone
                     // parse with the tz function which takes a default time zone if it is not in the format string
                     returnMoment = moment.tz(d, parseFormats, options.useStrict, options.timeZone);
-                }  else if (options.fromUTC){
+                }  else if (options.fromUTC) {
                     // Create moment from UTC format
-                    returnMoment = moment.utc(d, parseFormats, options.useStrict);        
+                    returnMoment = moment.utc(d, parseFormats, options.useStrict);
                 } else {
                     returnMoment = moment(d, parseFormats, options.useStrict);
                 }
@@ -160,7 +160,7 @@
                 if (hasTimeZone()) {
                     returnMoment.tz(options.timeZone);
                 }
-                
+
                 return returnMoment;
             },
 
@@ -852,14 +852,14 @@
             },
 
             setValue = function (targetMoment, propagateBinding) {
-                var oldDate          = unset ? null : date;
-                    propagateBinding = propagateBinding !== false;
+                var oldDate = unset ? null : date;
+                propagateBinding = propagateBinding !== false;
 
                 // Alk : simulate binding if context given
-                if (propagateBinding && options.bindingContext && options.bindingProperty !== null){
+                if (propagateBinding && options.bindingContext && options.bindingProperty !== null) {
                     setBindingValue(targetMoment ? targetMoment.toDate() : null);
                 }
-                
+
                 // case of calling setValue(null or false)
                 if (!targetMoment) {
                     unset = true;
@@ -1440,25 +1440,25 @@
                 }
             },
             /* Alk */
-            addBindingWatcher = function(){
-                if (typeof options.bindingContext.$watch !== typeof void(0) ){
-                    options.bindingContext.$watch(options.bindingProperty, function(newValue , oldValue){
-                        if (newValue !== oldValue){
+            addBindingWatcher = function () {
+                if (typeof options.bindingContext.$watch == 'function') {
+                    options.bindingContext.$watch(options.bindingProperty, function (newValue , oldValue) {
+                        if (newValue !== oldValue) {
                             setValue(parseInputDate(newValue), false);
                             update();
                         }
                     });
                 }
             },
-            setBindingValue = function(value){
-                if (options.bindingProperty.indexOf('.') > -1){
-                    var parts = options.bindingProperty.split( "." ),
+            setBindingValue = function (value) {
+                if (options.bindingProperty.indexOf('.') > -1) {
+                    var parts = options.bindingProperty.split('.'),
                         length = parts.length,
                         i,
                         property = options.bindingContext;
-        
-                    for ( i = 0; i < length; i++ ) {
-                        if (i < length - 1){
+
+                    for (i = 0; i < length; i++) {
+                        if (i < length - 1) {
                             property = property[parts[i]];
                         }else {
                             property[parts[i]] = value;
@@ -1588,7 +1588,7 @@
 
         /* AlkCustom  */
 
-        picker.fromUTC = function(bEnabled){
+        picker.fromUTC = function (bEnabled) {
             if (arguments.length === 0) {
                 return options.fromUTC;
             }
@@ -1596,7 +1596,7 @@
             return picker;
         };
 
-        picker.bindingContext = function(context){
+        picker.bindingContext = function (context) {
             if (arguments.length === 0) {
                 return options.bindingContext;
             }
@@ -1604,14 +1604,14 @@
             return picker;
         };
 
-        picker.bindingProperty = function(property){
+        picker.bindingProperty = function (property) {
             if (arguments.length === 0 || property instanceof Date) {
                 return options.bindingProperty;
             }
-            if (picker.bindingContext === null){
-                throw "bindingProperty() : bindingContext have to be attached first";
+            if (picker.bindingContext === null) {
+                throw 'bindingProperty() : bindingContext have to be attached first';
             }
-            if (typeof property !== 'string'){
+            if (typeof property !== 'string') {
                 throw new TypeError('bindingProperty() expects a string parameter. Use dotted string to pass deep property. E.g : floor.property');
             }
 
@@ -2443,9 +2443,8 @@
             picker.disable();
         }
         if (input.is('input') && input.val().trim().length !== 0) {
-            var realValue = input.attr('value');
-            if (typeof realValue !== typeof void(0)){
-                setValue(parseInputDate(realValue.trim()));
+            if (typeof input.attr('value') !== typeof void(0)) {
+                setValue(parseInputDate(input.attr('value').trim()));
             }
         }
         else if (options.defaultDate && input.attr('placeholder') === undefined) {

@@ -29,7 +29,8 @@
     "grunt-jscs": "latest",
     "grunt-nuget": "^0.1.5",
     "grunt-string-replace": "latest",
-    "load-grunt-tasks": "latest"
+    "load-grunt-tasks": "latest",
+    "vue": "^2.5.17"
   },
   "homepage": "https://github.com/pingcheng/bootstrap4-datetimepicker",
   "keywords": [

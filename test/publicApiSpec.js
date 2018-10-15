@@ -1192,3 +1192,81 @@ describe('Public API method tests', function () {
         makeFormatTest('YYYY-MM-DD HH:mm:ss', 'America/New_York');
     });
 });
+
+describe('Binding implementation', function () {
+    'use strict';
+    var dtp,
+        dtpElement,
+        appVue,
+        vueElement,
+        date,
+        nextDate;
+
+    beforeAll(function () {
+        dtpElement = $('<input>').attr('id', 'dtp');
+        vueElement = $('<div>').attr('id', 'vueElement');
+
+        $(document).find('body').append($('<div>').attr('class', 'row').append($('<div>').attr('class', 'col-md-12').append(dtpElement)));
+        $(document).find('body').append($('<div>').attr('class', 'row').append($('<div>').attr('class', 'col-md-12').append(vueElement)));
+
+        date = new Date(),
+        nextDate = new Date(date.getTime() + 10000);
+
+        appVue = new Vue({
+            el : '#vueElement',
+            data : {
+                formData : {
+                    date : null
+                }
+            }
+        });
+        
+        dtpElement.datetimepicker({
+            bindingContext : appVue,
+            bindingProperty : 'formData.date',
+            date : date
+        });
+
+        dtp = dtpElement.data('DateTimePicker');
+    });
+
+    afterAll(function () {
+        dtp.destroy();
+        dtpElement.remove();
+        appVue.$destroy();
+        vueElement.remove();
+    });
+
+    describe('bindingContext() function', function () {
+        describe('existence context', function () {
+            it('is defined', function () {
+                expect(dtp.bindingContext).toBeDefined();
+            });
+        });
+
+        describe('existence property', function () {
+            it('is defined', function () {
+                expect(dtp.bindingProperty).toBeDefined();
+            });
+        });
+
+        describe('2 way binding from picker', function () {
+            it('from picker', function () {
+                expect(dtp.date().toDate().getTime()).toBe(appVue.formData.date.getTime());
+            });
+        });
+
+        describe('2 way binding from context', function () {
+            beforeEach(function() {
+                appVue.formData.date = nextDate;
+            });
+
+            it('from context', function () {
+                pending('TODO from context text');
+                //expect(dtp.date().toDate().getTime()).toBe(appVue.formData.date.getTime());
+            });
+        });
+    });
+
+
+});
