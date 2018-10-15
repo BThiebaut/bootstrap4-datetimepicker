@@ -128,7 +128,6 @@
             },
             keyState = {},
             target   = element,
-            vueElement = null,
 
             /********************************************************************************
              *
@@ -856,9 +855,9 @@
             setValue = function (targetMoment) {
                 var oldDate = unset ? null : date;
 
-                // Alk : simulate vue binding if context given
-                if (options.vueContext && options.vueProperty !== null){
-                    setVueValue(targetMoment ? targetMoment.toDate() : null);
+                // Alk : simulate binding if context given
+                if (options.bindingContext && options.bindingProperty !== null){
+                    setBindingValue(targetMoment ? targetMoment.toDate() : null);
                 }
 
                 // case of calling setValue(null or false)
@@ -1441,12 +1440,12 @@
                 }
             },
             /* Alk */
-            setVueValue = function(value){
-                if (options.vueProperty.indexOf('.') > -1){
-                    var parts = options.vueProperty.split( "." ),
+            setBindingValue = function(value){
+                if (options.bindingProperty.indexOf('.') > -1){
+                    var parts = options.bindingProperty.split( "." ),
                         length = parts.length,
                         i,
-                        property = options.vueContext;
+                        property = options.bindingContext;
         
                     for ( i = 0; i < length; i++ ) {
                         if (i < length - 1){
@@ -1456,7 +1455,7 @@
                         }
                     }
                 }else {
-                    options.vueContext[options.vueProperty] = value;
+                    options.bindingContext[options.bindingProperty] = value;
                 }
             };
 
@@ -1587,26 +1586,26 @@
             return picker;
         };
 
-        picker.vueContext = function(context){
+        picker.bindingContext = function(context){
             if (arguments.length === 0) {
-                return options.vueContext;
+                return options.bindingContext;
             }
-            options.vueContext = context;
+            options.bindingContext = context;
             return picker;
         };
 
-        picker.vueProperty = function(property){
+        picker.bindingProperty = function(property){
             if (arguments.length === 0 || property instanceof Date) {
-                return options.vueProperty;
+                return options.bindingProperty;
             }
-            if (picker.vueContext === null){
-                throw "vueProperty() : vueContext have to be attached first";
+            if (picker.bindingContext === null){
+                throw "bindingProperty() : bindingContext have to be attached first";
             }
             if (typeof property !== 'string'){
-                throw new TypeError('vueProperty() expects a string parameter. Use dotted string to pass deep property. E.g : floor.property');
+                throw new TypeError('bindingProperty() expects a string parameter. Use dotted string to pass deep property. E.g : floor.property');
             }
 
-            picker.vueProperty = property;
+            picker.bindingProperty = property;
             return picker;
         };
 
