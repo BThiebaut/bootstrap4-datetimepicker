@@ -1,4 +1,4 @@
-# Datetimepicker for Bootstrap 4 - Binding support
+# Datetimepicker for Bootstrap 4 - One-way binding support
 
 Forked from [pingcheng](https://github.com/pingcheng/bootstrap4-datetimepicker)
 
