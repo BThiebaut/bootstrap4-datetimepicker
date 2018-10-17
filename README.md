@@ -23,7 +23,3 @@ Click [here](http://eonasdan.github.io/bootstrap-datetimepicker/) for the offici
 
 * Add UTC date format support
 * Add binding context support (tested with VueJs)
-
-
-## TODO
-* Update unit tests
